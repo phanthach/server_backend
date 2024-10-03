@@ -1,0 +1,40 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin-top: 50px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-footer {
+    font-size: 14px;
+}
+.driver-list {
+    max-height: 400px; /* Chiều cao tối đa */
+    overflow-y: auto; /* Kích hoạt cuộn dọc */
+    border: 1px solid #ccc; /* Đường viền cho phần danh sách */
+    padding: 10px; /* Khoảng cách bên trong */
+    background-color: #fff; /* Màu nền */
+}
+
+/* Tùy chỉnh thêm cho bảng */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2; /* Màu nền cho tiêu đề */
+}
+

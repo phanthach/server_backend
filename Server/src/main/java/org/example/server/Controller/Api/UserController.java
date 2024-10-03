@@ -1,24 +1,40 @@
-package org.example.server.Controller;
+package org.example.server.Controller.Api;
 
 import org.example.server.Model.Login;
 import org.example.server.Model.Response.LoginResponse;
 import org.example.server.Model.Response.RegisterResponse;
+import org.example.server.Model.Response.TokenResponse;
 import org.example.server.Model.User;
+import org.example.server.Service.JwtDecodeService;
+import org.example.server.Service.JwtEncodeService;
 import org.example.server.Service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private final JwtEncodeService jwtEncodeService;
+    private final JwtDecodeService jwtDecodeService;
     @Autowired
     private UserService userService;
+
+    public UserController(JwtEncodeService jwtEncodeService, JwtDecodeService jwtDecodeService) {
+        this.jwtEncodeService = jwtEncodeService;
+        this.jwtDecodeService = jwtDecodeService;
+    }
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody Login login) {
         int isValid = userService.checkLogin(login.getPhoneNumber(), login.getPassword());
         if(isValid==1) {
-            LoginResponse loginResponse = new LoginResponse("Đăng nhập thành công", 1);
+            int userId = userService.getUserByPhoneNumber(login.getPhoneNumber()).getUserId();
+            String token = jwtEncodeService.generateToken(userId,login.getPhoneNumber()); // giả sử bạn có jwtService để tạo token
+            LoginResponse loginResponse = new LoginResponse("Đăng nhập thành công", 1, token);
+
             return loginResponse;
         }
         else if (isValid==2) {
@@ -30,6 +46,7 @@ public class UserController {
             return loginResponse;
         }
     }
+
     @PostMapping("/register")
     public RegisterResponse register(
             @RequestBody User user) {
@@ -58,14 +75,43 @@ public class UserController {
         user1.setAddress(user.getAddress());
         user1.setPhoneNumber(user.getPhoneNumber());
         user1.setRoleId(user.getRoleId());
-        user1.setCreatedAt(user.getCreatedAt());
         user1.setIsBlocked(user.getIsBlocked());
         user1.setLicenseNumber(user.getLicenseNumber());
         user1.setCompanyName(user.getCompanyName());
+        user1.setBusCode(user.getBusCode());
 
         userService.addUser(user); // Thêm người dùng vào cơ sở dữ liệu
 
         return new RegisterResponse("Đăng ký thành công", 1);
     }
 
+    @GetMapping("/validate")
+    public TokenResponse validateToken(@RequestHeader("Authorization") String authorizationHeader) {
+        log.info("Token: " + authorizationHeader);
+        if (authorizationHeader == null || authorizationHeader.isEmpty()){
+            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ","");
+            return  tokenResponse;
+        }
+        if (!authorizationHeader.startsWith("Bearer ")) {
+            return new TokenResponse(0, "Token không hợp lệ", "");
+        }
+        String token = authorizationHeader.substring(7);
+
+        if (jwtDecodeService.isTokenValid(token)){
+            String phoneNumber = jwtDecodeService.extractPhoneNumber(token);
+            User user = userService.getUserByPhoneNumber(phoneNumber);
+            if(user!=null){
+                TokenResponse tokenResponse = new TokenResponse(1, "Token hợp lệ",user.getFullname());
+                return tokenResponse;
+            }
+            else {
+                TokenResponse tokenResponse = new TokenResponse(0, "Người dùng không tồn tại","");
+                return tokenResponse;
+            }
+        }
+        else {
+            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ", "");
+            return tokenResponse;
+        }
+    }
 }

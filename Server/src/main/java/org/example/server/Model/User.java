@@ -48,6 +48,9 @@ public class User {
     @Column(name = "companyName", nullable = true, length = 255)
     private String companyName;
 
+    @Column(name = "busCode", nullable = true, length = 255)
+    private String busCode;
+
     // Getters và Setters
     public int getUserId() {
         return userId;
@@ -143,5 +146,13 @@ public class User {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getBusCode() {
+        return busCode;
+    }
+
+    public void setBusCode(String busCode) {
+        this.busCode = busCode;
     }
 }

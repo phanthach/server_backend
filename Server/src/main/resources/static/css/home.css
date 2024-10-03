@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    background-color: #f1f1f1;
+}
+
+.navbar {
+    background-color: #fc812e;
+    color: #fdfdfd;
+    height: 56px; /* Đảm bảo chiều cao thanh tiêu đề */
+    position: fixed; /* Đặt thanh tiêu đề cố định */
+    top: 0; /* Ở trên cùng */
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Đảm bảo thanh tiêu đề luôn nằm trên cùng */
+    display: flex; /* Sử dụng flex để dễ dàng căn chỉnh */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 0 20px; /* Thêm padding bên trái và bên phải */
+}
+
+.navbar h1 {
+    margin: 0;
+    padding: 0; /* Xóa padding bên trong h1 để căn chính xác */
+    font-size: 24px; /* Tăng kích thước chữ nếu cần */
+}
+
+#accountInfo {
+    margin-left: auto; /* Đẩy phần thông tin tài khoản sang bên phải */
+}
+
+
+.container-fluid {
+    flex-grow: 1;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    height: calc(100% - 56px); /* Chiều cao sidebar bằng chiều cao cửa sổ - chiều cao thanh tiêu đề */
+    position: fixed; /* Đặt sidebar cố định */
+    top: 56px; /* Đặt sidebar ngay dưới thanh tiêu đề */
+    left: 0;
+    padding-top: 20px;
+    overflow-y: auto; /* Cho phép cuộn dọc nếu cần */
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+}
+
+.sidebar .active {
+    background-color: #007bff;
+}
+
+.submenu {
+    display: none;
+}
+
+.submenu a {
+    padding-left: 20px;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    width: calc(100% - 250px);
+    overflow-y: auto; /* Cho phép cuộn dọc cho nội dung */
+    height: calc(100vh - 56px); /* Đặt chiều cao nội dung bằng chiều cao cửa sổ - chiều cao thanh tiêu đề */
+}
+
+.content h2 {
+    margin-top: 56px;
+    margin-bottom: 20px;
+}
+
+.footer {
+    background-color: #007bff; /* Màu nền */
+    color: white; /* Màu chữ */
+    text-align: center; /* Căn giữa */
+    padding: 10px; /* Padding cho chân trang */
+    position: fixed; /* Đặt footer cố định */
+    bottom: 0; /* Ở đáy */
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Đảm bảo footer nằm trên cùng */
+}
+
+#driverTableContainer {
+    max-height: 550px; /* Hoặc tùy chỉnh theo nhu cầu */
+    position: relative; /* Thiết lập vị trí tương đối để phần chân không ảnh hưởng */
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+#driverTable{
+    max-height: 400px; /* Hoặc tùy chỉnh theo nhu cầu */
+    border: 1px solid #ccc; /* Đường viền */
+    position: relative;
+}

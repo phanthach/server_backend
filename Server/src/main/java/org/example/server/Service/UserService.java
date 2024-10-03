@@ -7,6 +7,7 @@ import org.example.server.Model.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -29,8 +30,12 @@ public class UserService {
         }
         return 0;
     }
-
+    public User getUserByPhoneNumber(String phoneNumber) {
+        Optional<User> userOptional = userRepository.findByPhoneNumber(phoneNumber);
+        return userOptional.orElse(null);
+    }
     public User addUser(User user) {
+        user.setCreatedAt(String.valueOf(LocalDateTime.now()));
         return userRepository.save(user);
     }
 
