@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Ghế</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/AddSeat.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Sửa Danh Sách Ghế</h2>
+    <form id="seatForm" class="row g-3">
+        <div class="col-md-3">
+            <label for="nameSeat" class="form-label">Tên Ghế</label>
+            <input type="text" class="form-control" id="nameSeat" required>
+        </div>
+        <div class="col-md-3">
+            <label for="position_x" class="form-label">Vị Trí X (Cột)</label>
+            <input type="number" step="1" class="form-control" id="position_x" required>
+        </div>
+        <div class="col-md-3">
+            <label for="position_y" class="form-label">Vị Trí Y (Hàng)</label>
+            <input type="number" step="1" class="form-control" id="position_y" required>
+        </div>
+        <div class="col-md-3">
+            <label for="floor" class="form-label">Tầng</label>
+            <input type="number" class="form-control" id="floor" required>
+        </div>
+        <div class="col-md-3 mt-3">
+            <button type="button" class="btn btn-success" id="addSeatBtn">Lưu</button>
+        </div>
+    </form>
+
+    <div id="floorsContainer" class="mt-5">
+        <!-- Sơ đồ ghế theo tầng sẽ được thêm vào đây -->
+    </div>
+    <button type="button" class="btn btn-primary mt-3" id="saveLayoutBtn">Hoàn thành</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/EditSeat.js"></script>
+</body>
+</html>

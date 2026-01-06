@@ -1,0 +1,36 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.form-container {
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #0d6efd;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #343a40;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.form-text {
+    font-style: italic;
+    color: #6c757d;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Tuyến Đường</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container mt-5">
+    <h2>Chi Tiết Tuyến Đường</h2>
+    <!-- Thông tin Layout -->
+    <div class="col mb-4">
+        <div class="col-md-3">
+            <label class="form-label"><strong>Điểm bắt đầu: </strong></label>
+            <span id="startLocation"></span>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"><strong>Điểm kết thúc: </strong></label>
+            <span id="endLocation"></span>
+        </div>
+    </div>
+
+    <!-- Tab navigation -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pickUp-tab" data-bs-toggle="tab" data-bs-target="#pickUp" type="button" role="tab" aria-controls="pickUp" aria-selected="true">Đón khách</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="dropOff-tab" data-bs-toggle="tab" data-bs-target="#dropOff" type="button" role="tab" aria-controls="dropOff" aria-selected="false">Trả khách</button>
+        </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="pickUp" role="tabpanel" aria-labelledby="pickUp-tab">
+            <div id="pickUpContainer" class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tên vị trí</th>
+                        <th>Kinh độ</th>
+                        <th>Vĩ độ</th>
+                        <th>Thời gian đến</th>
+                        <th>Ngày đến</th>
+                    </tr>
+                    </thead>
+                    <tbody id="pickUpTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="dropOff" role="tabpanel" aria-labelledby="dropOff-tab">
+            <div id="dropOffContainer" class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Tên vị trí</th>
+                        <th>Kinh độ</th>
+                        <th>Vĩ độ</th>
+                        <th>Thời gian đến</th>
+                        <th>Ngày đến</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dropOffTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary mt-3" id="backBtn">Quay lại</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/LocationDetail.js"></script>
+</body>
+</html>

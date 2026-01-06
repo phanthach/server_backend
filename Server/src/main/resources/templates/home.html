@@ -1,0 +1,539 @@
+<html>
+
+<head>
+    <title>
+        XeVui - Administrator
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/home.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="top-bar">
+    <div class="logo">
+        <img alt="Bus logo" height="40"
+             src="/img/logo.png"
+             width="40"/>
+        Xe Vui
+    </div>
+    <div class="title">
+        Welcome to Administrator
+    </div>
+    <div class="user-info">
+        <img alt="Admin avatar" height="40"
+             src="/img/avatar.webp"
+             width="40"/>
+        <span id="accountName">Xin chào</span>
+        <button id="logoutBtn" class="logout-btn">
+            Logout
+        </button>
+    </div>
+</div>
+<div class="sidebar">
+    <div class="menu">
+        <a class="menu-item active" href="#trangchu" onclick="activateMenuItem(this, 'home-section')">
+            <i class="fas fa-home">
+            </i>
+            Trang Chủ
+        </a>
+        <div class="menu-item" href="#thongtinnguoidung" onclick="toggleSubmenu('nguoi-dung-submenu'); activateMenuItem(this, 'nguoi-dung-section'); activateSubmenuItem(document.getElementById('nguoi-dung-thong-tin'), 'nguoi-dung-thong-tin-section')">
+            <i class="fas fa-users">
+            </i>
+            Người Dùng
+        </div>
+        <div class="submenu" id="nguoi-dung-submenu">
+            <div class="submenu-item" id="nguoi-dung-thong-tin"
+                 onclick="activateSubmenuItem(this, 'nguoi-dung-thong-tin-section')">
+                Thông tin
+            </div>
+            <div class="submenu-item" onclick="activateSubmenuItem(this, 'nguoi-dung-chinh-sua-section')">
+                Chỉnh sửa
+            </div>
+        </div>
+        <a class="menu-item" href="#quanlyxe" onclick="activateMenuItem(this, 'xe-section')">
+            <i class="fas fa-bus">
+            </i>
+            Quản lý xe
+        </a>
+        <a class="menu-item" href="#quanlytaixe" onclick="activateMenuItem(this, 'tai-xe-section')">
+            <i class="fas fa-id-card">
+            </i>
+            Quản lý tài xế
+        </a>
+        <a class="menu-item" href="#quanlytuyenduong" onclick="activateMenuItem(this, 'tuyen-duong-section')">
+            <i class="fas fa-route">
+            </i>
+            Quản lý tuyến đường
+        </a>
+        <a class="menu-item" href="#quanlysodoghe" onclick="activateMenuItem(this, 'so-do-ghe-section')">
+            <i class="fas fa-route">
+            </i>
+            Quản lý sơ đồ ghế
+        </a>
+        <a class="menu-item" href="#quanlylichtrinh" onclick="activateMenuItem(this, 'lich-trinh-section')">
+            <i class="fas fa-calendar"></i>
+            </i>
+            Quản lý lịch trình
+        </a>
+        <a class="menu-item" href="#quanlyhoadon" onclick="activateMenuItem(this, 'hoa-don-section')">
+            <i class="fas fa-file-invoice">
+            </i>
+            Quản lý Hóa Đơn
+        </a>
+        <a class="menu-item" href="#thongke" onclick="activateMenuItem(this, 'thong-ke-section')">
+            <i class="fas fa-chart-bar">
+            </i>
+            Thống Kê
+        </a>
+    </div>
+</div>
+<div class="main-content">
+    <!-- Trang chủ   ===================================================================================================     -->
+    <div id="home-section" class="content-section active">
+        <div class="stats">
+            <div class="stat-item">
+                <div class="number">
+                    11
+                </div>
+                <div class="label">
+                    Khách hàng
+                </div>
+                <i class="fas fa-user-plus">
+                </i>
+            </div>
+            <div class="stat-item">
+                <div class="number">
+                    84
+                </div>
+                <div class="label">
+                    Số chuyến Xe
+                </div>
+                <i class="fas fa-bus">
+                </i>
+            </div>
+            <div class="stat-item">
+                <div class="number">
+                    150.000 VNĐ
+                </div>
+                <div class="label">
+                    Tổng doanh thu trong tháng
+                </div>
+                <i class="fas fa-file-invoice-dollar">
+                </i>
+            </div>
+        </div>
+        <div class="footer">
+            Hệ Thống Xe Khách Xe Vui
+        </div>
+    </div>
+    <!-- Người dùng ===================================================================================================     -->
+    <div id="nguoi-dung-section" class="content-section">
+        <h2>
+            Quản lý Người Dùng
+        </h2>
+        <p>
+            Nội dung quản lý người dùng.
+        </p>
+    </div>
+    <div id="nguoi-dung-thong-tin-section" class="content-section">
+        <h2>
+            Thông tin Người Dùng
+        </h2>
+        <p>
+            Nội dung thông tin người dùng.
+        </p>
+    </div>
+    <div id="nguoi-dung-chinh-sua-section" class="content-section">
+        <h2>
+            Chỉnh sửa Người Dùng
+        </h2>
+        <p>
+            Nội dung chỉnh sửa người dùng.
+        </p>
+    </div>
+    <!-- Xe ===================================================================================================     -->
+    <div id="xe-section" class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Quản lý Xe</h2>
+            <button class="btn btn-primary" id="addVehicleButton">
+                <i class="fas fa-plus"></i> Thêm xe mới
+            </button>
+        </div>
+        <div class="mb-3">
+            <input type="text" id="searchVehicle" class="form-control" placeholder="Tìm kiếm xe theo biển số...">
+        </div>
+        <div id="vehicleTableContainer" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Biển số</th>
+                    <th>Loại xe</th>
+                    <th>Số ghế</th>
+                    <th>Sơ đồ ghế</th>
+                    <th>Ảnh</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="vehicleTable">
+                <!-- Các hàng của xe sẽ được chèn vào đây thông qua JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationVehicle" class="d-flex justify-content-center my-3"></div>
+    </div>
+    <!-- Tài xế ===================================================================================================     -->
+    <div id="tai-xe-section" class="content-section">
+        <h2>Quản lý tài xế</h2>
+        <div class="mb-3">
+            <input type="text" id="searchDriver" class="form-control" placeholder="Tìm kiếm tài xế theo tên...">
+        </div>
+        <div id="driverTableContainer" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày tạo tài khoản</th>
+                    <th>Số giấy phép lái xe</th>
+                    <th>Trạng thái</th>
+                </tr>
+                </thead>
+                <tbody id="driverTable">
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationDriver" class="d-flex justify-content-center my-3"></div>
+    </div>
+    <!-- Tuyến đường ===================================================================================================     -->
+    <div id="tuyen-duong-section" class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Quản lý tuyến đường</h2>
+            <button id="addRouteBtn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm tuyến đường mới
+            </button>
+        </div>
+        <div class="mb-3">
+            <input type="text" id="searchRoute" class="form-control" placeholder="Tìm kiếm theo tên tuyến đường">
+        </div>
+        <div id="routeTableContainer" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Tỉnh bắt đầu</th>
+                    <th>Tỉnh kết thúc</th>
+                    <th>Chỉnh sửa</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="routeTable">
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationRoute" class="d-flex justify-content-center my-3"></div>
+    </div>
+    <!-- Sơ đồ ghế ===================================================================================================     -->
+    <div id="so-do-ghe-section" class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Quản lý Sơ Đồ Ghế</h2>
+            <button id="addLayoutBtn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Thêm sơ đồ ghế mới
+            </button>
+        </div>
+        <div class="mb-3">
+            <input type="text" id="searchLayoutSeat" class="form-control" placeholder="Tìm kiếm theo tên layout...">
+        </div>
+        <h6><span style="color: orange;">(*) Chú ý nếu layout chưa hoàn thành sơ đồ ghế sẽ bị tạm khóa. Vui lòng hoàn thành sơ đồ ghế ngồi</span></h6>
+        <div id="layoutTableContainer" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Số ghế</th>
+                    <th>Số cột</th>
+                    <th>Số hàng</th>
+                    <th>Số tầng</th>
+                    <th>Chỉnh sửa</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="layoutTable">
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationLayout" class="d-flex justify-content-center my-3"></div>
+    </div>
+    <!-- Hóa đơn ===================================================================================================     -->
+    <div id="hoa-don-section" class="content-section">
+        <h2>
+            Quản lý Hóa Đơn
+        </h2>
+        <p>
+            Nội dung quản lý hóa đơn.
+        </p>
+    </div>
+    <!-- Thống kê ===================================================================================================     -->
+    <div id="thong-ke-section" class="content-section">
+        <h2>
+            Thống Kê
+        </h2>
+        <p>
+            Nội dung thống kê.
+        </p>
+    </div>
+    <!-- Lịch trình ===================================================================================================     -->
+    <div id="lich-trinh-section" class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Quản lý Lịch Trình</h2>
+            <button id="addTripBtn" class="btn btn-primary" data-toggle="modal" data-target="#addTripModal">
+                <i class="fas fa-plus"></i> Thêm lịch trình mới
+            </button>
+        </div>
+        <div class="mb-3">
+            <input type="text" id="searchTripSeat" class="form-control" placeholder="Tìm kiếm theo tên trip...">
+        </div>
+        <h6><span style="color: orange;"></span></h6>
+        <div id="layoutTripContainer" class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tuyến đường</th>
+                    <th>Tài xế</th>
+                    <th>Xe</th>
+                    <th>Giờ khởi hành</th>
+                    <th>Giờ kết thúc</th>
+                    <th>Số ghế còn trống</th>
+                    <th>Giá vé</th>
+                    <th>Trạng thái</th>
+                </tr>
+                </thead>
+                <tbody id="tripTable">
+                </tbody>
+            </table>
+        </div>
+        <div id="paginationTrip" class="d-flex justify-content-center my-3"></div>
+    </div>
+</div>
+<!-- Modal Thêm Xe Mới -->
+<div class="modal fade modal-fullscreen" id="addVehicleModal" tabindex="-1" role="dialog" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen" role="document">
+        <div class="modal-content" style="height: 100vh; width: calc(100vw - 40px); margin: 0 20px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addVehicleModalLabel">Thêm Mới Xe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="vehicleForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="plateNumber">Biển Số Xe</label>
+                        <input type="text" class="form-control" id="plateNumber" name="plateNumber" required placeholder="Nhập số xe...">
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicleType">Loại Xe</label>
+                        <input type="text" class="form-control" id="vehicleType" name="vehicleType" required placeholder="Nhập loại xe...">
+                    </div>
+                    <div class="form-group">
+                        <label for="img">Hình Ảnh</label>
+                        <input type="file" class="form-control-file" id="img" name="img" accept="image/*" required>
+                        <small class="form-text text-muted">Chọn hình ảnh cho xe (PNG, JPG, JPEG).</small>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <div id="layoutTableVehicleContainer" class="table-responsive">
+                        <label for="layoutTableVehicle">Chọn Layout Ghế Ngồi</label>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Chọn</th>
+                                <th>Tên</th>
+                                <th>Số ghế</th>
+                                <th>Số hàng</th>
+                                <th>Số cột</th>
+                            </tr>
+                            </thead>
+                            <tbody id="layoutTableVehicle">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="paginationLayoutVehicle" class="d-flex justify-content-center my-3"></div>
+                </div>
+                <button id="saveVehicleBtn" class="btn btn-primary"><i class="fas fa-save"></i> Lưu Xe</button>
+                <div id="progressBarVehicle" style="display: none;">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnClose" data-bs-dismiss="modal" aria-label="Close">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal add Trip ================================================================================================== -->
+<div class="modal fade modal-fullscreen" id="addTripModal" tabindex="-1" role="dialog" aria-labelledby="addTripModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content" style="height: 100vh; width: calc(100vw - 40px); margin: 0 20px; border-radius: 15px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTripModalLabel">Thêm Mới Chuyến Đi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="tripForm" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="route">Tuyến đường</label>
+                            <input type="text" class="form-control" id="route" name="route" required disabled placeholder="Chọn tuyến đường ...">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="driver">Tài xế</label>
+                            <input type="text" class="form-control" id="driver" name="driver" required disabled placeholder="Chọn tài xế ...">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="vehicle">Xe</label>
+                            <input type="text" class="form-control" id="vehicle" name="vehicle" required disabled placeholder="Chọn xe ...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="departureTime">Giờ khởi hành</label>
+                            <input type="text" class="form-control" id="departureTime" name="departureTime" required disabled placeholder="HH:mm">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="departureDate">Ngày khởi hành</label>
+                            <input type="text" class="form-control" id="departureDate" name="departureDate" required disabled placeholder="dd/MM/yyyy">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="arrivalTime">Giờ hoàn thành</label>
+                            <input type="text" class="form-control" id="arrivalTime" name="arrivalTime" required disabled placeholder="HH:mm">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="arrivalDate">Ngày hoàn thành</label>
+                            <input type="text" class="form-control" id="arrivalDate" name="arrivalDate" required disabled placeholder="dd/MM/yyyy">
+                        </div>
+                    </div>
+                </form>
+                <!-- Tab layout -->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="route-tab" data-toggle="tab" href="#routeTrip" role="tab" aria-controls="routeTrip" aria-selected="true">Tuyến đường</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="vehicle-tab" data-toggle="tab" href="#vehicleTrip" role="tab" aria-controls="vehicleTrip" aria-selected="false">Xe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="driver-tab" data-toggle="tab" href="#driverTrip" role="tab" aria-controls="driverTrip" aria-selected="false">Tài xế</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Route tab -->
+                    <div class="tab-pane fade show active" id="routeTrip" role="tabpanel" aria-labelledby="route-tab">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Tuyến đường</th>
+                                <th>Thông tin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr onclick="selectRoute('Route 1', 'Thông tin tuyến đường 1')">
+                                <td>Route 1</td>
+                                <td>Thông tin tuyến đường 1</td>
+                            </tr>
+                            <tr onclick="selectRoute('Route 2', 'Thông tin tuyến đường 2')">
+                                <td>Route 2</td>
+                                <td>Thông tin tuyến đường 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Vehicle tab -->
+                    <div class="tab-pane fade" id="vehicleTrip" role="tabpanel" aria-labelledby="vehicle-tab">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Xe</th>
+                                <th>Thông tin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr onclick="selectVehicle('Xe 1', 'Thông tin xe 1')">
+                                <td>Xe 1</td>
+                                <td>Thông tin xe 1</td>
+                            </tr>
+                            <tr onclick="selectVehicle('Xe 2', 'Thông tin xe 2')">
+                                <td>Xe 2</td>
+                                <td>Thông tin xe 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Driver tab -->
+                    <div class="tab-pane fade" id="driverTrip" role="tabpanel" aria-labelledby="driver-tab">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Tài xế</th>
+                                <th>Thông tin</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr onclick="selectDriver('Tài xế 1', 'Thông tin tài xế 1')">
+                                <td>Tài xế 1</td>
+                                <td>Thông tin tài xế 1</td>
+                            </tr>
+                            <tr onclick="selectDriver('Tài xế 2', 'Thông tin tài xế 2')">
+                                <td>Tài xế 2</td>
+                                <td>Thông tin tài xế 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Lưu Chuyến Đi</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/home2.js"></script>
+<script src="/js/AddVehicle.js"></script>
+<script src="/js/DriverManagement.js"></script>
+<script src="/js/VehicleManagement.js"></script>
+<script src="/js/LayoutSeatManagement.js"></script>
+<script src="/js/RouteManagement.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('saveVehicleBtn').addEventListener('click', async function (event) {
+        addVehicle(event)});
+
+    function selectRoute(routeName, routeInfo) {
+        document.getElementById('routeTrip').value = routeName; // Hiển thị tên tuyến đường
+        // Có thể cập nhật thêm thông tin khác nếu cần
+    }
+
+    function selectVehicle(vehicleName, vehicleInfo) {
+        document.getElementById('vehicleTrip').value = vehicleName; // Hiển thị tên xe
+        // Có thể cập nhật thêm thông tin khác nếu cần
+    }
+
+    function selectDriver(driverName, driverInfo) {
+        document.getElementById('driverTrip').value = driverName; // Hiển thị tên tài xế
+        // Có thể cập nhật thêm thông tin khác nếu cần
+    }
+</script>
+</body>
+</html>

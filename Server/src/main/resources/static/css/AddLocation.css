@@ -1,0 +1,56 @@
+/* Kiểu dáng cho bản đồ */
+#map {
+    height: 100vh;
+    width: 50%;
+}
+
+/* Kiểu dáng cho ô tìm kiếm nhúng vào bản đồ */
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+#autocomplete {
+    width: 100%;
+    padding: 10px 20px 10px 40px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    outline: none;
+    box-shadow: none;
+    transition: border 0.3s ease-in-out;
+}
+
+#autocomplete:focus {
+    border-color: #4CAF50;
+}
+
+.search-container .icon {
+    position: absolute;
+    left: 15px;
+    font-size: 18px;
+    color: #aaa;
+}
+
+/* Kiểu dáng cho phần gợi ý */
+.suggestions {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 1px solid #ccc;
+    max-width: 300px;
+    background-color: white;
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
