@@ -6,7 +6,7 @@ async function fetchVehicleList(page = 0, size = 5) {
         return
     }
     try{
-        const response = await fetch(`/api/vehicles?page=${page}&size=${size}`, {
+        const response = await fetch(`/api/listVehicle?page=${page}&size=${size}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -17,18 +17,15 @@ async function fetchVehicleList(page = 0, size = 5) {
         throw new Error(`Lỗi: ${response.status} - ${errorMessage}`);
     }
     const data = await response.json();
-        if (data && data._embedded && Array.isArray(data._embedded.vehicles)) {
-            displayVehicles(data._embedded.vehicles); // Hiển thị danh sách tài xế
-            setupPagination(data.page.totalPages, page); // Thiết lập phân trang
-        } else {
-            alert('No vehicles found.');
-        }
+            displayVehicles(data.content); // Hiển thị danh sách tài xế
+            setupPaginationVehicle(data.totalPages, page); // Thiết lập phân trang
+
     }catch (error) {
         console.error('Lỗi kết nối:', error);
         alert('Không thể tải danh sách xe.'+ error);
     }
 }
-function setupPagination(totalPages, currentPage) {
+function setupPaginationVehicle(totalPages, currentPage) {
     const paginationContainer = document.getElementById('paginationVehicle');
     paginationContainer.innerHTML = ''; // Xóa nội dung phân trang hiện tại
 
@@ -50,6 +47,7 @@ function displayVehicles(vehecles) {
     // Duyệt qua danh sách tài xế và thêm vào bảng
     vehecles.forEach(vehicle => {
         const row = document.createElement('tr');
+        row.dataset.vehicleId = vehicle.vehicleId;
         const actionButton = vehicle.status === 1
             ? `<button class="btn btn-success btn-sm" onclick="approveVehicle(this)">Duyệt</button>
                 <button class="btn btn-warning btn-sm" disabled>Tạm khóa</button> `
@@ -59,10 +57,11 @@ function displayVehicles(vehecles) {
         // Thêm nút "Xóa" cho tất cả tài xế
         const deleteButton = `<button class="btn btn-danger btn-sm" onclick="deleteVehicle(this)">Xóa</button>`;
         row.innerHTML = `
-            <td>${vehicle.vehicleId}</td>
+            <td>${vehicle.plateNumber}</td>
             <td>${vehicle.vehicleType}</td>
             <td>${vehicle.seatCapacity}</td>
-            <td><img src="/img/img_tho_lam.jpg" alt="Vehicle Image" style="width: 100px; height: auto;"></td>
+            <td>${vehicle.nameLayout}</td>
+            <td><img src=${vehicle.img} alt="Vehicle Image" style="width: 100px; height: auto;"></td>
             <td>
                 ${actionButton}
                 ${deleteButton}
@@ -72,12 +71,11 @@ function displayVehicles(vehecles) {
     });
 }
 function approveVehicle(button) {
-    if(!confirm('Bạn có chắc chắn muốn tiếp tc sử dụng xe?')) {
+    if(!confirm('Bạn có chắc chắn muốn tiếp tục sử dụng xe?')) {
         return;
     }
     const row = button.closest('tr');
-    const vehicleId = row.dataset.vehicleId;
-    alert(vehicleId);
+    const vehicleId = row.dataset.vehicleId ;
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (!token) {
         alert("Mời bạn đăng nhập lại!");
@@ -107,7 +105,7 @@ function approveVehicle(button) {
                 if (approveButton) {
                     approveButton.disabled = false;
                     approveButton.innerText = 'Khóa';
-                    approveButton.onclick = function() { BlockDriver(this); };
+                    approveButton.onclick = function() { BlockVehicle(this); };
                 }
             }
         }).catch(error => {
@@ -151,44 +149,48 @@ function approveVehicle(button) {
 //     })
 // }
 // // Hàm khóa tài x tạm thời.
-// function BlockDriver(button) {
-//     if (!confirm('Bạn có chắc chắn muốn khóa tài xế này?')) {
-//         return;
-//     }
-//     const row = button.closest('tr');
-//     const phoneNumber = row.querySelector('td:nth-child(4)').textContent;
-//     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-//     if (!token) {
-//         alert("Mời bạn đăng nhập lại!");
-//         window.location.replace("login");
-//         return;
-//     }
-//     fetch(`api/drivers/${phoneNumber}/block?isBlocked=1`, {
-//         method: 'PUT',
-//         headers: {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json'
-//         }
-//     }).then(response => {
-//         if (!response.ok) {
-//             return response.json().then(error => {
-//                 throw new Error(error.message || 'Có lỗi xảy ra');
-//             });
-//         } else {
-//             alert('Đã khóa tài xế');
-//             button.innerText = 'Tạm khóa';
-//             button.disabled = true;
-//             const approveButtona = row.querySelector('.btn-secondary'); // Tìm nút "Duyệt"
-//             if (approveButtona) {
-//                 approveButtona.disabled = false; // Bật lại nút "Duyệt"
-//                 approveButtona.innerText = 'Duyệt';
-//                 approveButtona.classList.remove('btn-secondary'); // Nếu bạn có lớp secondary trên nút Duyệt
-//                 approveButtona.classList.add('btn-success'); // Đặt lại lớp
-//                 approveButtona.onclick = function() { approveDriver(this); };
-//             }
-//         }
-//     }).catch(error => {
-//         console.error('Lỗi: ', error);
-//         alert(`Đã xảy ra lỗi vui lòng thử lại sau`)
-//     })
-// }
+function BlockVehicle(button) {
+    if(!confirm('Bạn có chắc chắn muốn khóa xe này?')) {
+        return;
+    }
+    const row = button.closest('tr');
+    const vehicleId = row.dataset.vehicleId ;
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (!token) {
+        alert("Mời bạn đăng nhập lại!");
+        window.location.replace("login");
+        return;
+    }
+    fetch(`api/vehicles/${vehicleId}/block?status=1`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error =>{
+                    throw new Error(error.message || 'Có lỗi xảy ra');
+                });
+            }
+            else{
+                alert('Đã khóa xe');
+                button.innerText = 'Tạm khóa';
+                button.disabled = true;
+                button.classList.remove('btn-warning');
+                button.classList.add('btn-warning');
+                const approveButtonn = row.querySelector('.btn-secondary'); // Tìm nút "Duyệt"
+                if (approveButtonn) {
+                    approveButtonn.disabled = false; // Bật lại nút "Duyệt"
+                    approveButtonn.innerText = 'Duyệt';
+                    approveButtonn.classList.remove('btn-secondary'); // Nếu bạn có lớp secondary trên nút Duyệt
+                    approveButtonn.classList.add('btn-success'); // Đặt lại lớp
+                    approveButtonn.onclick = function() { approveVehicle(this); };
+                }
+            }
+        }).catch(error => {
+        console.error('Lỗi: ', error);
+        alert(`Đã xảy ra lỗi vui lòng thử lại sau`)
+    })
+}

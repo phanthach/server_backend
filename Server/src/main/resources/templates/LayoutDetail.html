@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Layout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/AddSeat.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container mt-5">
+    <h2>Chi Tiết Layout</h2>
+    <!-- Thông tin Layout -->
+    <div class="col mb-4">
+        <div class="col-md-3">
+            <label class="form-label"><strong>Tên Layout:</strong></label>
+            <span id="layoutName"></span>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"><strong>Số ghế:</strong></label>
+            <span id="seatCapacity"></span>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"><strong>Số hàng ghế:</strong></label>
+            <span id="seatRows"></span>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"><strong>Số cột ghế:</strong></label>
+            <span id="seatColumns"></span>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label"><strong>Trạng thái:</strong></label>
+            <span id="layoutStatus" class="text-success"></span>
+        </div>
+    </div>
+
+    <!-- Sơ đồ ghế -->
+    <div id="floorsContainer" class="mt-5">
+        <!-- Sơ đồ ghế theo tầng sẽ được thêm vào đây -->
+    </div>
+    <button type="button" class="btn btn-primary mt-3" id="backBtn">Quay lại</button>
+</div>
+
+<script src="/js/LayoutDetail.js"></script>
+</body>
+
+</html>

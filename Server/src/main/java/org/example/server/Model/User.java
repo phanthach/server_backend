@@ -34,7 +34,7 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "roleId", nullable = false)
-    private Long roleId;
+    private int roleId;
 
     @Column(name = "createdAt", nullable = false)
     private String createdAt;
@@ -108,11 +108,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 

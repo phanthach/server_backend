@@ -26,24 +26,22 @@ public class DriverController {
     private static final Logger log = LoggerFactory.getLogger(DriverController.class);
     private final JwtEncodeService jwtEncodeService;
     private final JwtDecodeService jwtDecodeService;
-    private final PagedResourcesAssembler<User> pagedResourcesAssembler;
 
     @Autowired
     private UserService userService;
     @Autowired
     private DriverService driverService;
 
-    public DriverController(JwtEncodeService jwtEncodeService, JwtDecodeService jwtDecodeService, PagedResourcesAssembler<User> pagedResourcesAssembler) {
+    public DriverController(JwtEncodeService jwtEncodeService, JwtDecodeService jwtDecodeService) {
         this.jwtEncodeService = jwtEncodeService;
         this.jwtDecodeService = jwtDecodeService;
-        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @GetMapping("/drivers")
-    public ResponseEntity<?> getListDriver(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<?> getListDriver(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PageableDefault Pageable pageable) {
         // Kiểm tra header Authorization
         if (authorizationHeader == null || authorizationHeader.isEmpty() || !authorizationHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         }
 
         // Lấy token sau "Bearer "
@@ -51,27 +49,19 @@ public class DriverController {
 
         // Kiểm tra token hợp lệ
         if (!jwtDecodeService.isTokenValid(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         } else {
             String phoneNumber = jwtDecodeService.extractPhoneNumber(token);
             Page<User> users = driverService.getDriverByBusCode(phoneNumber, pageable);
-            return ResponseEntity.ok(pagedResourcesAssembler.toModel(users));
+            return ResponseEntity.ok(users);
         }
-    }
-
-    @GetMapping("/driver")
-    public ResponseEntity<?> getLisDriver(@PageableDefault(size = 10) Pageable pageable) {
-            Page<User> users = driverService.getDriverByBusCode("0854352262", pageable);
-            log.info("oke" + users.toString());
-            // Trả về danh sách tài xế
-            return ResponseEntity.ok(pagedResourcesAssembler.toModel(users));
     }
 
     @DeleteMapping("/drivers/{phoneNumber}")
     public ResponseEntity<?> deleteDriver(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String phoneNumber) {
         // Kiểm tra header Authorization
         if (authorizationHeader == null || authorizationHeader.isEmpty() || !authorizationHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         }
 
         // Lấy token sau "Bearer "
@@ -79,15 +69,15 @@ public class DriverController {
 
         // Kiểm tra token hợp lệ
         if (!jwtDecodeService.isTokenValid(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         } else {
             String phoneNumberToken = jwtDecodeService.extractPhoneNumber(token);
             User user = userService.getUserByPhoneNumber(phoneNumber);
             if (phoneNumberToken.equals(user.getBusCode())) {
                 driverService.deleteDriverByPhoneNumber(phoneNumber);
-                return ResponseEntity.ok(new TokenResponse(1, "Xóa tài xế thành công", ""));
+                return ResponseEntity.ok(new TokenResponse(1, "Xóa tài xế thành công", "",user.getRoleId()));
             } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new TokenResponse(0, "Không có quyền xóa tài xế", ""));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new TokenResponse(0, "Không có quyền xóa tài xế", "", null));
             }
         }
     }
@@ -96,7 +86,7 @@ public class DriverController {
     public ResponseEntity<?> updateBlockDriver(@RequestHeader(value = "Authorization", required = false) String authorizationHeader, @PathVariable String phoneNumber, @RequestParam int isBlocked) {
         // Kiểm tra header Authorization
         if (authorizationHeader == null || authorizationHeader.isEmpty() || !authorizationHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         }
 
         // Lấy token sau "Bearer "
@@ -104,15 +94,15 @@ public class DriverController {
 
         // Kiểm tra token hợp lệ
         if (!jwtDecodeService.isTokenValid(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", ""));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new TokenResponse(0, "Token không hợp lệ", "", null));
         } else {
             String phoneNumberToken = jwtDecodeService.extractPhoneNumber(token);
             User user = userService.getUserByPhoneNumber(phoneNumber);
             if (phoneNumberToken.equals(user.getBusCode())) {
                 driverService.updateBlockeDriver(phoneNumber, isBlocked);
-                return ResponseEntity.ok(new TokenResponse(1, "Cập nhật trạng thái tài xế thành công", ""));
+                return ResponseEntity.ok(new TokenResponse(1, "Cập nhật trạng thái tài xế thành công", "", null));
             } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new TokenResponse(0, "Không có quyền cập nhật trạng thái tài xế", ""));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new TokenResponse(0, "Không có quyền cập nhật trạng thái tài xế", "", null));
             }
         }
     }

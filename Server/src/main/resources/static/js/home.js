@@ -1,5 +1,3 @@
-// home.js
-
 document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 submenu.style.display = (state === 'open') ? 'block' : 'none'; // Mở hoặc đóng submenu
             });
         } else {
-            alert(result.message);
+            alert('Mời bạn đăng nhập lại!');
             localStorage.removeItem('token');
             sessionStorage.removeItem('token');
             sessionStorage.removeItem('activeMenu');
@@ -58,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         console.error('Lỗi kết nối:', error);
-        alert('Đã xảy ra lỗi, vui lòng thử lại sau.');
+        alert('Mời bạn đăng nhập lại!');
         localStorage.removeItem('token');
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('activeMenu');
@@ -128,8 +126,13 @@ async function activateMenuItem(menuItem) {
     else if(menuHref === '#quanlyxe'){
         await fetchVehicleList();
     }
+    else if(menuHref === '#quanlysodoghe'){
+        await fetchLayoutList();
+    }
+    else if(menuHref === '#quanlytuyenduong'){
+        await fetchRouteList();
+    }
 }
-
 // Sự kiện để xử lý trở về khi người dùng sử dụng nút quay lại của trình duyệt
 window.onpopstate = function(event) {
     if (event.state) {
@@ -147,5 +150,34 @@ window.onpopstate = function(event) {
                 item.classList.add('active');
             }
         });
+    }
+};
+// Thêm sự kiện click cho nút "Thêm sơ đồ ghế"
+document.getElementById('addLayoutBtn').addEventListener('click', function() {
+    // Chuyển hướng sang trang "Thêm sơ đồ ghế"
+    window.location.href = '/addlayout';
+});
+document.getElementById('addRouteBtn').addEventListener('click', function() {
+    // Chuyển hướng sang trang "Thêm sơ đồ ghế"
+    window.location.href = '/addroute';
+});
+window.onload = function() {
+    // Lấy token từ sessionStorage
+    const token = sessionStorage.getItem('token');
+    const activeMenu = sessionStorage.getItem('activeMenu');
+    const open = sessionStorage.getItem('');
+
+    // Xóa toàn bộ sessionStorage
+    sessionStorage.clear();
+
+    // Nếu có token, lưu lại vào sessionStorage
+    if (token) {
+        sessionStorage.setItem('token', token);
+    }
+    if(activeMenu){
+        sessionStorage.setItem('activeMenu', activeMenu);
+    }
+    if(open){
+        sessionStorage.setItem('', open);
     }
 };

@@ -1,15 +1,16 @@
 package org.example.server.Model;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "layout")
-public class Layout {
+public class Layout implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "layoutId", nullable = false)
+    @JsonProperty("layoutId")
     private int layoutId;
 
     @Column(name = "nameLayout", nullable = false, length = 255)
@@ -23,6 +24,30 @@ public class Layout {
 
     @Column(name = "y", nullable = false, length = 255)
     private int y;
+
+    @Column(name = "status", nullable = false)
+    private int status;
+
+    @Column(name = "floor", nullable = false)
+    private int floor;
+
+    @Column(name="modId", nullable = false)
+    private int modId;
+
+    public Layout(int layoutId, String nameLayout, int seatCapacity, int x, int y, int status, int floor, int modId) {
+        this.layoutId = layoutId;
+        this.nameLayout = nameLayout;
+        this.seatCapacity = seatCapacity;
+        this.x = x;
+        this.y = y;
+        this.status = status;
+        this.floor = floor;
+        this.modId = modId;
+    }
+
+    public Layout() {
+
+    }
 
     public int getLayoutId() {
         return layoutId;
@@ -62,5 +87,29 @@ public class Layout {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
+    }
+
+    public int getModId() {
+        return modId;
+    }
+
+    public void setModId(int modId) {
+        this.modId = modId;
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain chain(HttpSecurity http) throws Exception {
@@ -22,9 +21,5 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
 //                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
-    }
-    @Bean
-    public PagedResourcesAssembler<?> pagedResourcesAssembler() {
-        return new PagedResourcesAssembler<>(null, null);
     }
 }

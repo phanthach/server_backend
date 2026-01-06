@@ -31,9 +31,12 @@ public class UserController {
     public LoginResponse login(@RequestBody Login login) {
         int isValid = userService.checkLogin(login.getPhoneNumber(), login.getPassword());
         if(isValid==1) {
-            int userId = userService.getUserByPhoneNumber(login.getPhoneNumber()).getUserId();
+            User user = userService.getUserByPhoneNumber(login.getPhoneNumber());
+            int userId = user.getUserId();
+            int roleId = user.getRoleId();
+            log.info("Role id: " + roleId);
             String token = jwtEncodeService.generateToken(userId,login.getPhoneNumber()); // giả sử bạn có jwtService để tạo token
-            LoginResponse loginResponse = new LoginResponse("Đăng nhập thành công", 1, token);
+            LoginResponse loginResponse = new LoginResponse("Đăng nhập thành công", 1,roleId, token);
 
             return loginResponse;
         }
@@ -89,11 +92,11 @@ public class UserController {
     public TokenResponse validateToken(@RequestHeader("Authorization") String authorizationHeader) {
         log.info("Token: " + authorizationHeader);
         if (authorizationHeader == null || authorizationHeader.isEmpty()){
-            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ","");
+            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ","",null);
             return  tokenResponse;
         }
         if (!authorizationHeader.startsWith("Bearer ")) {
-            return new TokenResponse(0, "Token không hợp lệ", "");
+            return new TokenResponse(0, "Token không hợp lệ", "",null);
         }
         String token = authorizationHeader.substring(7);
 
@@ -101,16 +104,16 @@ public class UserController {
             String phoneNumber = jwtDecodeService.extractPhoneNumber(token);
             User user = userService.getUserByPhoneNumber(phoneNumber);
             if(user!=null){
-                TokenResponse tokenResponse = new TokenResponse(1, "Token hợp lệ",user.getFullname());
+                TokenResponse tokenResponse = new TokenResponse(1, "Token hợp lệ",user.getFullname(), user.getRoleId());
                 return tokenResponse;
             }
             else {
-                TokenResponse tokenResponse = new TokenResponse(0, "Người dùng không tồn tại","");
+                TokenResponse tokenResponse = new TokenResponse(0, "Người dùng không tồn tại","",null);
                 return tokenResponse;
             }
         }
         else {
-            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ", "");
+            TokenResponse tokenResponse = new TokenResponse(0, "Token không hợp lệ", "",null);
             return tokenResponse;
         }
     }

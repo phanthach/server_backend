@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  spring-boot-app:
+    image: spring-boot-war-app
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/qlvx
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=88888888
+    depends_on:
+      - mysql
+    networks:
+      - my-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=88888888
+      - MYSQL_DATABASE=qlvx
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

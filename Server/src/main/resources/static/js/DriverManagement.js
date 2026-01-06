@@ -18,30 +18,62 @@ async function fetchDriverList(page = 0, size = 10) {
             return;
         }
         const data = await response.json();
-        if (data && data._embedded && Array.isArray(data._embedded.users)) {
-            displayDrivers(data._embedded.users); // Hiển thị danh sách tài xế
-            setupPagination(data.page.totalPages, page); // Thiết lập phân trang
-        } else {
-            alert('No drivers found.');
-        }
+        displayDrivers(data.content); // Hiển thị danh sách tài xế
+        setupPagination1(data.totalPages, page); // Thiết lập phân trang
     } catch (error) {
         console.error('Lỗi kết nối:', error);
         alert('Không thể tải danh sách tài xế.'+ error);
     }
 }
-function setupPagination(totalPages, currentPage) {
-    const paginationContainer = document.getElementById('pagination');
+function setupPagination1(totalPages, currentPage) {
+    const paginationContainer = document.getElementById('paginationDriver');
     paginationContainer.innerHTML = ''; // Xóa nội dung phân trang hiện tại
 
-    for (let i = 0; i < totalPages; i++) {
+    // Hàm để thêm nút trang vào container
+    const addPageButton = (page) => {
         const button = document.createElement('button');
-        button.innerText = i + 1;
+        button.innerText = page + 1; // Thay đổi số trang
         button.className = 'btn btn-light me-1';
-        button.disabled = (i === currentPage); // Vô hiệu hóa nút trang hiện tại
-
-        button.onclick = () => fetchDriverList(i); // Gọi lại hàm fetchDriverList với trang đã chọn
-
+        button.disabled = (page === currentPage); // Vô hiệu hóa nút trang hiện tại
+        button.onclick = () => fetchDriverList(page); // Gọi lại hàm fetchLayoutList với trang đã chọn
         paginationContainer.appendChild(button);
+    };
+
+    // Hiển thị các nút trang
+    if (totalPages <= 5) {
+        // Nếu tổng số trang ít hơn hoặc bằng 5, hiển thị tất cả
+        for (let i = 0; i < totalPages; i++) {
+            addPageButton(i);
+        }
+    } else {
+        // Nếu tổng số trang lớn hơn 5
+        if (currentPage < 3) {
+            // Nếu trang hiện tại là trang đầu tiên
+            for (let i = 0; i < 5; i++) {
+                addPageButton(i);
+            }
+            paginationContainer.appendChild(document.createTextNode('...'));
+            addPageButton(totalPages - 1); // Hiển thị trang cuối
+        } else if (currentPage > totalPages - 5) {
+            // Nếu trang hiện tại là trang cuối
+            addPageButton(0); // Hiển thị trang đầu
+            paginationContainer.appendChild(document.createTextNode('...'));
+            for (let i = totalPages - 5; i < totalPages; i++) {
+                addPageButton(i);
+            }
+        } else {
+            // Nếu trang hiện tại ở giữa
+            addPageButton(0); // Hiển thị trang đầu
+            paginationContainer.appendChild(document.createTextNode('...'));
+
+            // Hiển thị các trang gần với trang hiện tại
+            for (let i = currentPage - 1; i <= currentPage + 3; i++) {
+                addPageButton(i);
+            }
+
+            paginationContainer.appendChild(document.createTextNode('...'));
+            addPageButton(totalPages - 1); // Hiển thị trang cuối
+        }
     }
 }
 function displayDrivers(drivers) {

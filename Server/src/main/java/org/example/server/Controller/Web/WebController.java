@@ -24,4 +24,44 @@ public class WebController {
     public String addlayout() {
         return "AddLayoutSeat";
     }
+
+    @GetMapping("/addseat")
+    public String addseat() {
+        return "AddSeat";
+    }
+
+    @GetMapping("/addvehicle")
+    public String addvehicle() {
+        return "AddVehicle";
+    }
+
+    @GetMapping("/layoutdetail")
+    public String layoutdetail() {
+        return "LayoutDetail";
+    }
+
+    @GetMapping("/editseat")
+    public String editseat() {
+        return "EditSeat";
+    }
+
+    @GetMapping("/addroute")
+    public String addroute() {
+        return "AddRoute";
+    }
+
+    @GetMapping("/addlocation")
+    public String addlocation() {
+        return "AddLocation";
+    }
+
+    @GetMapping("/routedetail")
+    public String routedetail() {
+        return "RouteDetail";
+    }
+
+    @GetMapping("/editroute")
+    public String editlocation() {
+        return "EditLocation";
+    }
 }
